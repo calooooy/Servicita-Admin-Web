@@ -1,38 +1,138 @@
+@font-face {
+  font-family: 'Quicksand'; /* Choose a unique name for your font */
+  src: url('./fonts/Quicksand-Regular.ttf') format('truetype'); /* Update the file path and format */
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Quicksand-Bold'; /* Choose a unique name for your font */
+  src: url('./fonts/Quicksand-Bold.ttf') format('truetype'); /* Update the file path and format */
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Repeat the @font-face block for other font weights/styles if applicable */
+@font-face {
+  font-family: 'GothicA1'; /* Choose a unique name for your font */
+  src: url('./fonts/GothicA1-Regular.ttf') format('truetype'); /* Update the file path and format */
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'GothicA1-Bold'; /* Choose a unique name for your font */
+  src: url('./fonts/GothicA1-Bold.ttf') format('truetype'); /* Update the file path and format */
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+body {
+  background: linear-gradient(115deg, #011823, #7bc1e1); /* Replace with your gradient colors and angle */
+  margin: 0;
+}
+
+
 .App {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.login-container {
+  border: none;
+  border-radius: 50px;
+  padding: 50px;
+  width: 200px;
+  height: 350px;
+  background: #d9d9d9;
+  text-align: none;
+  box-shadow: 12px 12px 5px rgba(10, 10, 10, 0.4);
+}
+
+label {
+  font-family: 'GothicA1', sans-serif;
+  font-size: 12px;
+  margin-bottom: 5px;
+  display: block;
+  margin-bottom: 5px;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  padding-right: 1px;
+  padding-left: 1px;
+  padding-inline-start: 5px;
+  margin-bottom: 15px;
+  border: 1.7px solid transparent; /* Set a transparent border initially */
+  border-image: linear-gradient(45deg, #75B9D9, #05364C); /* Gradient color for the border */
+  border-image-slice: 1;
+  -webkit-background-clip: text;
+  font-size: 10px;
+}
+
+
+button {
+  margin-top: 15px;
+  background: none;
+  color: #338BB2;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  font-family: 'GothicA1-Bold';
+  font-size: 20px;
+  /* text-decoration: underline; */
+  transition: color 0.3s ease; /* Smooth transition for color change */
+  float: right;
+  top:500px;
+}
+
+button:hover {
+  color: #07384F; /* Change the color on hover */
+}
+
+.Admin{
+  font-family: 'Quicksand', sans-serif;
+  font-size: 30px;
+  margin-bottom: 0px;
+}
+
+.Login{
+  font-family: 'Quicksand', sans-serif;
+  font-size: 55px;
+  margin-top: 0px;
+}
+
+.Admin, .Login{
+  line-height: 1.17;
+  font-family: 'Quicksand-Bold', sans-serif;
+  background: linear-gradient(45deg, #7bc1e1, #154961); /* Gradient color for "Admin" */
+  -webkit-background-clip: text;
+  color: transparent;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.username{
+  font-family: 'GothicA1-Regular', sans-serif;
+  text-align: left;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.side-logo {
+  width: 100px;
+  position: absolute;
+  top: 40px;
+  left: 50px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.Servicita{
   color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  font-family: 'Quicksand', sans-serif;
+  font-size: 50;
+  position: absolute;
+  top: 25px;
+  left: 150px;
 }

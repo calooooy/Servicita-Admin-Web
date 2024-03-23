@@ -34,7 +34,7 @@ body {
 }
 
 
-.App {
+.Login {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -101,13 +101,13 @@ button:hover {
   margin-bottom: 0px;
 }
 
-.Login{
+.Loginword{
   font-family: 'Quicksand', sans-serif;
   font-size: 55px;
   margin-top: 0px;
 }
 
-.Admin, .Login{
+.Admin, .Loginword{
   line-height: 1.17;
   font-family: 'Quicksand-Bold', sans-serif;
   background: linear-gradient(45deg, #7bc1e1, #154961); /* Gradient color for "Admin" */

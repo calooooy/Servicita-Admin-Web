@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import './App.css';
+import '../App.css';
 
-const App = () => {
+const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -12,14 +12,14 @@ const App = () => {
   };
 
   return (
-    <div className="App">
+    <div className="Login">
 
       <img src="side-logo.png" alt="logo" className="side-logo" />
       <h1 className="Servicita">Servicita</h1>
 
       <div className="login-container">
       <h1 className="Admin">Admin</h1>
-      <h1 className="Login">Login</h1>
+      <h1 className="Loginword">Login</h1>
         <form>
           <label htmlFor="username">Username</label>
           <input
@@ -46,4 +46,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Login;

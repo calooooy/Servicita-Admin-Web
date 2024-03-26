@@ -136,3 +136,12 @@ button:hover {
   top: 25px;
   left: 150px;
 }
+
+.ServicitaHeader {
+  margin-top: 15px;
+  font-family: 'Quicksand-Bold', sans-serif; 
+}
+
+.TopPerforming {
+  width:auto;
+}

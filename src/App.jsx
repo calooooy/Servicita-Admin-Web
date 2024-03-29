@@ -1,16 +1,19 @@
-
+import React, { useState } from 'react';
 import './App.css';
 import Login from './components/Login';
 import AdminHome from './components/AdminHome';
 import 'antd/dist/reset.css';
-import { Menu } from "antd"
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const handleLoginSuccess = () => {
+    setIsLoggedIn(true);
+  };
+
   return (
     <div>
-      {/* <Login /> */}
-      <AdminHome />
-
+      {isLoggedIn ? <AdminHome /> : <Login onLoginSuccess={handleLoginSuccess} />}
     </div>
   );
 }

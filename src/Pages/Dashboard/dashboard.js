@@ -9,9 +9,9 @@ function Dashboard() {
             <h1 className='DashboardHeader'>Dashboard</h1>
             <hr className='Divider' style={{ width: '1185px' }} />
             <Space direction="horizontal">
-                <DashboardCard title={"Service Seekers"} value={252}></DashboardCard>
-                <DashboardCard title={"Service Providers"} value={185}></DashboardCard>
-                <DashboardCard title={"Completed Service "} value={906}></DashboardCard>
+                <DashboardCard title={"Service Seekers"} value={252}></DashboardCard>       {/* value to be changed depending on database */}
+                <DashboardCard title={"Service Providers"} value={185}></DashboardCard>     {/* value to be changed depending on database */}
+                <DashboardCard title={"Completed Service "} value={906}></DashboardCard>    {/* value to be changed depending on database */}
             </Space>
             <Space>
                 <div className='TopPerforming'>

@@ -1,56 +1,53 @@
 import React, { useState, useEffect } from 'react';
+import { Table, Dropdown, Menu } from 'antd';
 import { FaEllipsisV, FaAngleLeft, FaStar } from 'react-icons/fa';
-import { Table, Dropdown, Menu, Space } from 'antd';
+import UserDetails from './userDetails';
 
-function ProviderList() {
+function ProviderList({ searchTerm }) {
   const [dataSource, setDataSource] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [showUserDetails, setShowUserDetails] = useState(false)
+
 
   useEffect(() => {
-    setLoading(true);
-    fetch('https://dummyjson.com/users')
-      .then(res => res.json())
-      .then(data => {
-        setDataSource(data.users);
-        setLoading(false);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-        setLoading(false);
-      });
-  }, []);
+    if (!searchTerm) {
+      // If searchTerm is empty, show all users
+      setLoading(true);
+      fetch('https://dummyjson.com/users')
+        .then(res => res.json())
+        .then(data => {
+          setDataSource(data.users);
+          setLoading(false);
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+          setLoading(false);
+        });
+    } else {
+      // Filter users based on search term
+      const filteredData = dataSource.filter(user =>
+        user.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.lastName.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setDataSource(filteredData);
+    }
+  }, [searchTerm]);
 
-  const renderName = (text, record) => (
-    <span
-      style={{ textAlign: 'left', fontSize: '20px', cursor: 'pointer' }}
-      onClick={() => handleItemClick(record)}
-    >
-      {record.firstName} {record.lastName}
-    </span>
-  );
-
-  const renderImage = (url, record) => (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        cursor: 'pointer'
-      }}
-      onClick={() => handleItemClick(record)}
-    >
-      <div style={{ width: 50, height: 50, borderRadius: '50%', overflow: 'hidden' }}>
-        <img src={url} alt="User" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-      </div>
-    </div>
-  );
-
-  const handleItemClick = (record) => {
-    setSelectedUser(record);
-  };
-
-  const handleCloseProfile = () => {
-    setSelectedUser(null);
+  const handleMenuClick = (record, key) => {
+    if (key === 'reward') {
+      // Handle suspend action
+      console.log('Reward:', record);
+    }else if (key === 'suspend') {
+      // Handle suspend action
+      console.log('Suspend:', record);
+    } else if (key === 'delete') {
+      // Handle delete action
+      console.log('Delete:', record);
+    } else {
+      // Handle suspend duration
+      console.log('Suspend duration:', key, record);
+    }
   };
 
   const renderActions = (text, record) => (
@@ -59,9 +56,9 @@ function ProviderList() {
         <Menu onClick={({ key }) => handleMenuClick(record, key)}>
           <Menu.Item key="reward">Reward</Menu.Item>
           <Menu.SubMenu title="Suspend">
-            <Menu.Item key="5_hours" onClick={() => handleSubMenuClick(record, '5 hours')}>5 hours</Menu.Item>
-            <Menu.Item key="1_day" onClick={() => handleSubMenuClick(record, '1 day')}>1 day</Menu.Item>
-            <Menu.Item key="1_week" onClick={() => handleSubMenuClick(record, '1 week')}>1 week</Menu.Item>
+            <Menu.Item key="5_hours">5 hours</Menu.Item>
+            <Menu.Item key="1_day">1 day</Menu.Item>
+            <Menu.Item key="1_week">1 week</Menu.Item>
           </Menu.SubMenu>
           <Menu.Item key="delete">Delete</Menu.Item>
         </Menu>
@@ -74,133 +71,65 @@ function ProviderList() {
     </Dropdown>
   );
 
-  const renderStarRating = (rating) => {
-    const fullStars = Math.floor(rating);
-    const hasHalfStar = rating % 1 !== 0;
-
-    const stars = [];
-    for (let i = 0; i < 5; i++) {
-      if (i < fullStars) {
-        stars.push(<FaStar key={i} className="star" />);
-      } else if (i === fullStars && hasHalfStar) {
-        stars.push(<FaStarHalfAlt key={i} className="star" />);
-      } else {
-        stars.push(<FaStar key={i} className="empty-star" />);
-      }
-    }
-
-    return <div className="star-rating">{stars}</div>;
+  const handleUserClick = user => {
+    setSelectedUser(user);
+    setShowUserDetails(true);
   };
 
-  function UserDetails({ userDetails }) {
-    const { email, phone, address } = userDetails;
-    const { city, postalCode, state } = address;
-
-    return (
-      <div className="user-details-wrapper">
-        <div className='tableRow'>
-          Email:&nbsp;<span>{email}</span>
-        </div>
-        <div className='tableRow'>
-          Phone:&nbsp;<span>{phone}</span>
-        </div>
-        <div className='tableRow'>
-          Address:&nbsp;<span>{`${city}, ${state}, ${postalCode}`}</span>
-        </div>
-      </div>
-    );
-  }
-
-  function UserDetailCard({ title, value }) {
-    return (
-      <div className="ProviderDetailCard">
-        <div className="ProviderDetailCardTitle">{title}</div>
-        <div className="ProviderDetailCardValue">{value}</div>
-      </div>
-    );
-  }
-
-
+  const handleBackToList = () => {
+    setShowUserDetails(false); // Hide user details when back button is clicked
+    setSelectedUser(null); // Reset selected user
+  };
 
   return (
-    <div>
-      {selectedUser && (
-        <div>
-          <div className="profileHeader">
-            {/* Back button */}
-            <div className="back-button" onClick={handleCloseProfile}>
-              <FaAngleLeft />
-            </div>
-            {/* Profile picture */}
-            <div className="profile-picture-container">
-              <img className="profile-picture" src={selectedUser.image} alt="Profile" />
-            </div>
-            {/* Render detailed user profile details here */}
-            <div>
-              <p className="profile-username">{selectedUser.firstName} {selectedUser.lastName}</p>
-              {/* Star rating frame */}
-              {renderStarRating(selectedUser.id)}
-              {/* Add more details as needed */}
-            </div>
-
-            {/* Profile actions */}
-            <div className="profile-actions">
-              {renderActions()}
-            </div>
-
-          </div>
-          <div className="profileBody">
-            <div className='leftSide'>
-              <UserDetails userDetails={selectedUser} />
-              <div className='ServicesOffered'>Services Offered:</div>
-              
-            </div>
-            <div class="verticalLine"></div>
-            <div className="userDetailCardsContainerProvider">
-                <UserDetailCard title={"Completed Services"} value={selectedUser.age} />
-                <UserDetailCard title={"Reports Received"} value={selectedUser.height} />
-                <UserDetailCard title={"Violation Record"} value={selectedUser.id} />
-            </div>
-            <div className='Performance'>For graphs:</div>
-          </div>
-        </div>
-      )}
-
-      {!selectedUser && (
-        <div className="scrollable-table">
-          <Table
-            style={{ width: '100%' }}
-            components={{
-              body: {
-                cell: ({ children }) => <td>{children}</td>
-              }
-            }}
-            size='small'
-            columns={[
-              {
-                dataIndex: "image",
-                render: (url, record) => renderImage(url, record),
-                width: '100px',
-              },
-              {
-                dataIndex: "firstName",
-                render: (text, record) => renderName(text, record)
-              },
-              {
-                dataIndex: 'actions',
-                render: renderActions,
-                width: '50px',
-              }
-            ]}
-            loading={loading}
-            dataSource={dataSource.map(item => ({ ...item, key: item.id }))}
-            pagination={false}
-          />
-        </div>
+    <div className="scrollable-table">
+      {showUserDetails ? (
+        <UserDetails user={selectedUser} onBack={handleBackToList} />
+      ) : (
+        <Table
+          style={{ width: '100%' }}
+          components={{
+            body: {
+              cell: ({ children }) => <td>{children}</td>
+            }
+          }}
+          size='small'
+          columns={[
+            {
+              dataIndex: "image",
+              align: 'center',
+              width: '100px',
+              render: (url, record) => (
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+                  <img src={url} alt="User" style={{ width: '50px', height: '50px', borderRadius: '50%', cursor: 'pointer' }} onClick={() => handleUserClick(record)} />
+                </div>
+              ),
+            },
+            {
+              dataIndex: "firstName",
+              render: (text, record) => (
+                <span
+                  style={{ textAlign: 'left', fontSize: '20px', cursor: 'pointer', marginLeft: '10px' }}
+                  onClick={() => handleUserClick(record)}
+                >
+                  {record.firstName} {record.maidenName} {record.lastName}
+                </span>
+              )
+            },
+            {
+              dataIndex: 'actions',
+              render: renderActions,
+              width: '50px',
+              align: 'center'
+            }
+          ]}
+          loading={loading}
+          dataSource={dataSource.map(item => ({ ...item, key: item.id }))}
+          pagination={false}
+        />
       )}
     </div>
   );
-
 }
 
 export default ProviderList;

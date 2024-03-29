@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import SearchBar from './searchBar';
-import ProviderList from './providerList';
+import ProviderList from '../ViewServiceProviderList/providerList';
 
 function ViewServiceProviderList() {
+  const [searchTerm, setSearchTerm] = useState('');
+
   const handleSearch = (searchTerm) => {
-    // Implement your search logic here
-    console.log('Search term:', searchTerm);
+    setSearchTerm(searchTerm);
   };
 
   return (
@@ -16,9 +17,8 @@ function ViewServiceProviderList() {
         <SearchBar onSearch={handleSearch} />
       </div>
       <div>
-        <ProviderList></ProviderList>
+        <ProviderList searchTerm={searchTerm} />
       </div>
-
     </div>
   );
 }

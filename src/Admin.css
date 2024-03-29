@@ -251,6 +251,9 @@
 
 .reset-button,
 .apply-button {
+  display: flex;
+  justify-content: center; /* Centers horizontally */
+  align-items: center; /* Centers vertically */
   margin-top: 380px;
   width: 129px;
   height: 32px;
@@ -275,11 +278,15 @@
   margin: 20px;
   display: flex;
   justify-content: space-between;
-  margin-top: 20px; /* Add space between body content and buttons */
+  margin-top: 10px; /* Add space between body content and buttons */
+  
 }
 
 .provider-reset-button,
 .provider-apply-button {
+  display: flex;
+  justify-content: center; /* Centers horizontally */
+  align-items: center; /* Centers vertically */
   margin-top: 300px;
   width: 129px;
   height: 32px;
@@ -288,6 +295,7 @@
   border-radius: 5px;
   cursor: pointer;
 }
+
 
 .provider-reset-button {
   background-color: white; /* Adjust color as needed */

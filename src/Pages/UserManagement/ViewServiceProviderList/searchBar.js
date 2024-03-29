@@ -1,5 +1,7 @@
+// searchBar.js
 import React, { useState } from 'react';
-import { FaSearch, FaSlidersH, FaTimes } from 'react-icons/fa';
+import { FaSearch, FaSlidersH } from 'react-icons/fa';
+import Sidebar from './sideBar';
 
 const SearchBar = ({ onSearch }) => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -7,11 +9,14 @@ const SearchBar = ({ onSearch }) => {
   const [sortBy, setSortBy] = useState(null); // Track the sorting state
 
   const handleChange = (event) => {
-    setSearchTerm(event.target.value);
+    const newSearchTerm = event.target.value;
+    setSearchTerm(newSearchTerm);
+    onSearch(newSearchTerm); // Pass search term to parent component
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    console.log('Search term:', searchTerm);
     onSearch(searchTerm);
   };
 
@@ -44,7 +49,6 @@ const SearchBar = ({ onSearch }) => {
     sortButtons.forEach(btn => btn.classList.remove('active'));
   };
 
-
   const handleSort = (sortByValue) => {
     if (sortBy === sortByValue) {
       // Toggle sorting order if the same button is clicked again
@@ -53,6 +57,7 @@ const SearchBar = ({ onSearch }) => {
       setSortBy(sortByValue);
     }
   };
+
 
   return (
     <div>
@@ -66,76 +71,15 @@ const SearchBar = ({ onSearch }) => {
             onChange={handleChange}
             className="search-input"
           />
-          <FaSlidersH
-            className="filter-icon"
+          <FaSlidersH 
+            className="filter-icon" 
             onClick={toggleSidebar}
-          />
+            />
         </div>
       </form>
       {showSidebar && (
         <Sidebar onClose={closeSidebar} sortBy={sortBy} onSort={handleSort} resetFilters={resetFilters} />
       )}
-    </div>
-  );
-};
-
-const Sidebar = ({ onClose, sortBy, onSort, resetFilters }) => {
-  return (
-    <div className="sidebar">
-      <div className='sidebar-header'>
-        <div className='filterHeader'>
-          Filter by
-          <button onClick={onClose} className='close-button'>
-            <FaTimes />
-          </button>
-        </div>
-      </div>
-      <div className='sidebar-body'>
-        <div className="dropdown-container">
-          <label htmlFor="category-dropdown">Category</label>
-          <select id="category-dropdown">
-            <option value="option1">Option 1</option>
-            <option value="option2">Option 2</option>
-            <option value="option3">Option 3</option>
-          </select>
-
-          <label htmlFor="location-dropdown">Location</label>
-          <select id="location-dropdown1">
-            <option value="option1">Option 1</option>
-            <option value="option2">Option 2</option>
-            <option value="option3">Option 3</option>
-          </select>
-
-
-          <div className="checkbox-container">
-            <div className="label-and-buttons-container">
-              <label htmlFor="AlphabeticalOrder">Alphabetical Order</label>
-              <div className="sorting-buttons">
-                <button
-                  className={`sort-button ${sortBy === 'asc' && 'active'}`}
-                  onClick={() => onSort('asc')}
-                >
-                  ▲
-                </button>
-                <button
-                  className={`sort-button ${sortBy === 'desc' && 'active'}`}
-                  onClick={() => onSort('desc')}
-                >
-                  ▼
-                </button>
-              </div>
-            </div>
-            <div className="flagged-providers">
-              <label htmlFor="flagged-providers-checkbox">Flagged Providers</label>
-              <input className='flaggedCheckbox' type="checkbox" id="flagged-providers-checkbox" />
-            </div>
-          </div>
-        </div>
-        <div className="provider-sidebar-buttons">
-          <button className="provider-reset-button" onClick={resetFilters}>Reset</button>
-          <button className="provider-apply-button">Apply</button>
-        </div>
-      </div>
     </div>
   );
 };

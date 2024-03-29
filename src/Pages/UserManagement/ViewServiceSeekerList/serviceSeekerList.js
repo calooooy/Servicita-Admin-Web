@@ -1,13 +1,13 @@
 // ViewServiceSeekerList.js
-
-import React from 'react';
+import React, { useState } from 'react';
 import SearchBar from './searchBar';
-import SeekerList from './seekerList';
+import SeekerList from '../ViewServiceSeekerList/seekerList';
 
 function ViewServiceSeekerList() {
+  const [searchTerm, setSearchTerm] = useState('');
+
   const handleSearch = (searchTerm) => {
-    // Implement your search logic here
-    console.log('Search term:', searchTerm);
+    setSearchTerm(searchTerm);
   };
 
   return (
@@ -15,10 +15,10 @@ function ViewServiceSeekerList() {
       <h1 className='DashboardHeader'>View Service Seeker List</h1>
       <hr className='Divider' style={{ width: '1185px' }} />
       <div style={{ width: '1150px' }}>
-        <SearchBar onSearch={handleSearch} /> {/* Use SearchBar component */}
+        <SearchBar onSearch={handleSearch} />
       </div>
       <div>
-        <SeekerList /> {/* Use SeekerList component */}
+        <SeekerList searchTerm={searchTerm} />
       </div>
     </div>
   );
